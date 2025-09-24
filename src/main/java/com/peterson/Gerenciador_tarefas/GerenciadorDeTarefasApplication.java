@@ -1,4 +1,4 @@
-package com.peterson.Gerenciador_tarefas;
+package com.peterson.gerenciador_tarefas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
