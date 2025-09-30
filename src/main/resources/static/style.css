@@ -5,6 +5,13 @@ body{
     padding: 0;
 }
 
+.container{
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    background: #fafafa;
+}
+
 .header{
     display: flex;
     justify-content: space-between;
@@ -23,14 +30,8 @@ body{
   cursor: pointer;
 }
 
-.container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
 .search-bar input {
-  width: 100%;
+  width: 40%;
   padding: 0.8rem;
   border-radius: 8px;
   border: 1px solid #ddd;
@@ -78,6 +79,32 @@ body{
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #ddd;
+
+}
+
+.stats div{
+    flex: 1;
+    text-align: center;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: bold;
+
+}
+.stats .total {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.stats .pendentes {
+  background: #fff5cc;
+  border: 1px solid #a67c00;
+  color: #a67c00;
+}
+
+.stats .concluidas {
+  background: #dfffe0;
+  border: 1px solid #007a33;
+  color: #007a33;
 }
 
 .modal {
