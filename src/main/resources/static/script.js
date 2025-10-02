@@ -2,14 +2,14 @@
 // Função principal para carregar as tarefas da API e renderizar na tela
 async function carregarTarefas() {
     const response = await fetch('/api/tarefas');
-    const tarefas = await response.json();
+    const tarefas = await response.json(); //converte a resposta Json em JS
     
     const lista = document.getElementById('lista-tarefas');
     lista.innerHTML = '';
 
     let total = 0, pendentes= 0, concluidas = 0;
 
-    tarefas.forEach(tarefa => {
+    tarefas.forEach(tarefa => { //procura todas as tarefas 
         total++; 
         if(tarefa.status === "PENDENTE") pendentes++;
         if(tarefa.status === "CONCLUIDA") concluidas++;
@@ -30,8 +30,8 @@ async function carregarTarefas() {
             </small>
         </div>
         <div class="actions">
-            <button onclick="editarTarefa(${tarefa.id})">✏️</button>
-            <button onclick="removerTarefa(${tarefa.id})">🗑️</button>
+            <button onclick="editarTarefa(${tarefa.idTarefa})">✏️</button>
+            <button onclick="removerTarefa(${tarefa.idTarefa})">🗑️</button>
         </div>
         `;
         lista.appendChild(card);
@@ -45,8 +45,20 @@ async function carregarTarefas() {
 
 // Remover Tarefa
 async function removerTarefa(id) {
-    await fetch(`/api/tarefas/${id}`, { method: 'DELETE' });
-    carregarTarefas();
+    if (confirm("Tem certeza que deseja exluir esta tarefa?")){
+        fetch(`/api/tarefas/${id}`, { method: 'DELETE' })
+        .then(response => {
+            if(response.ok){
+                alert("Tarefa removida com sucesso!");
+                carregarTarefas();
+            } else if (response.status === 404){
+                alert("tarefa não encontrada!");
+            } else{
+                alert("Erro ao remover a tarefa!");
+            }
+        })
+        .catch(Error => console.error("Erro:", error));
+    }
 }
 
 // Abrir modal (criar ou editar)
@@ -62,7 +74,7 @@ function abrirModal(tarefa = null){
         document.getElementById('prioridade').value = tarefa.prioridade;
         document.getElementById('status').value = tarefa.status;
         document.getElementById('dataPrazo').value = tarefa.dataPrazo;
-        form.dataset.editandoId = tarefa.id;
+        form.dataset.editandoId = tarefa.idTarefa;
     } else{
         document.getElementById('modalTitulo').innerText = 'Nova Tarefa';
         form.reset();
