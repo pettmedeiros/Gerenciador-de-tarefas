@@ -26,12 +26,14 @@ async function carregarTarefas() {
             <p>${tarefa.descricao}</p>
             <small>
                 Criada: ${new Date(tarefa.dataCriacao).toLocaleDateString('pt-BR')} |
-                Prazo: ${new Date(tarefa.dataPrazo).toLocaleDateString('pt-BR')}
+                Prazo: ${tarefa.dataPrevistaDate 
+                    ? new Date(tarefa.dataPrevistaDate).toLocaleDateString('pt-BR') : "Sem prazo" }
             </small>
         </div>
         <div class="actions">
             <button onclick="editarTarefa(${tarefa.idTarefa})">✏️</button>
             <button onclick="removerTarefa(${tarefa.idTarefa})">🗑️</button>
+            <button onclick="concluirTarefa(${tarefa.idTarefa})">✅</button>
         </div>
         `;
         lista.appendChild(card);
@@ -73,7 +75,7 @@ function abrirModal(tarefa = null){
         document.getElementById('descricao').value = tarefa.descricao;
         document.getElementById('prioridade').value = tarefa.prioridade;
         document.getElementById('status').value = tarefa.status;
-        document.getElementById('dataPrazo').value = tarefa.dataPrazo;
+        document.getElementById('dataPrazo').value = tarefa.dataPrevistaDate; 
         form.dataset.editandoId = tarefa.idTarefa;
     } else{
         document.getElementById('modalTitulo').innerText = 'Nova Tarefa';
@@ -92,6 +94,31 @@ async function editarTarefa(id) {
     const tarefa = await response.json();
     abrirModal(tarefa);
 }
+
+async function concluirTarefa(id) {
+    if (confirm ("Tem certeza que deseja concluir tarefa?")) {
+        try {
+            const response = await fetch(`/api/tarefas/${id}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify("CONCLUIDA")
+            });
+            
+            if(response.ok){
+            alert("Tarefa concluída com sucesso!");
+                carregarTarefas();
+            } else if (response.status === 404){
+                alert("tarefa não encontrada!");
+            } else{
+                alert("Erro ao concluir a tarefa!");
+            }
+        } catch(error){
+            console.error("Erro:" , error);
+            alert("Falha na comunicação com o servidor!");
+        }
+    }
+}
+    
 
 // --- Eventos da página ---
 
@@ -112,7 +139,7 @@ document.getElementById('formTarefa').addEventListener('submit', async (e) => {
         descricao: document.getElementById('descricao').value,
         prioridade: document.getElementById('prioridade').value,
         status: document.getElementById('status').value,
-        dataPrazo: document.getElementById('dataPrazo').value
+        dataPrevistaDate: document.getElementById('dataPrazo').value
     };
 
     if (editandoId) {
