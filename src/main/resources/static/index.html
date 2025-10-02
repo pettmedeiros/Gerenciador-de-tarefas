@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de tarefas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Gerenciador de Tarefas</h1>
+            <button id="btnNovaTarefa" class="btn-primary">+ Nova Tarefa</button>
+        </header>
+
+        <main>
+            <div class="search-bar">
+                <input type="text" id="buscar" placeholder="Buscar tarefas ...">
+            </div>
+
+            <section id="lista-tarefas" class="task-list">
+
+            </section>
+
+            <footer class="stats">
+                <div class="total">Total: <span id="total"></span></div>
+                <div class="pendentes">Pendentes: <span id="pendentes"></span></div>
+                <div class="concluidas">Concluídas: <span id="concluidas"></span></div>
+            </footer>
+        </main>
+        
+        <div id="modalNovaTarefa" class="modal hidden">
+            <div class="modal-content">
+                <span class="close" onclick="fecharModal()">&times;</span>;
+                <h2 id="modalTitulo">Nova Tarefa</h2>
+                <form id="formTarefa">
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" name="descricao" rows="3"></textarea>
+
+                    <label for="prioridade">Prioridade:</label>
+                    <select id="prioridade" name="prioridade" required>
+                        <option value="BAIXA">Baixa</option>
+                        <option value="MEDIA">Média</option>
+                        <option value="ALTA">Alta</option>
+                    </select>
+
+                    <label for="status">Status:</label>
+                    <select id="status" name="status" required>
+                        <option value="PENDENTE">Pendente</option>
+                        <option value="EM_ANDAMENTO">Em Andamento</option>
+                        <option value="CONCLUIDA">Concluída</option>
+                    </select>
+
+                    <label for="dataPrazo">Prazo:</label>
+                    <input type="date" id="dataPrazo" name="dataPrazo" required>
+
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
