@@ -53,6 +53,21 @@ public class TarefaController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Tarefa> atualizar(@PathVariable Long id, @RequestBody Tarefa tarefaAtualizada) {
+        return gerenciador.buscarTarefaPorId(id).map(t -> {
+            t.setTitulo(tarefaAtualizada.getTitulo());
+            t.setDescricao(tarefaAtualizada.getDescricao());
+            t.setDataCriacao(tarefaAtualizada.getDataCriacao());
+            t.setDataPrevistaDate(tarefaAtualizada.getDataPrevistaDate());
+            t.setStatus(tarefaAtualizada.getStatus());
+            t.setPrioridade(tarefaAtualizada.getPrioridade());
+
+            Tarefa atualizada = gerenciador.adicionarTarefa(t); 
+            return ResponseEntity.ok(atualizada);   // agora funciona
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Tarefa> delete (@PathVariable Long id){
         gerenciador.removerTarefa(id);
