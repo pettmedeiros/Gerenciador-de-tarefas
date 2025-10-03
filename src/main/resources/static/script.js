@@ -47,7 +47,7 @@ async function carregarTarefas() {
 
 // Remover Tarefa
 async function removerTarefa(id) {
-    const result = await Swal.fire({
+    const result = await Swal.fire({ //swal.fire usei para mostrar pop-ups interativos
     title: "Você tem certeza",
     text: "Tem certeza que deseja excluir esta tarefa?",
     icon: "warning",
@@ -82,7 +82,7 @@ async function removerTarefa(id) {
 function abrirModal(tarefa = null){
     const modal = document.getElementById('modalNovaTarefa');
     const form = document.getElementById('formTarefa');
-    modal.classList.remove('hidden');
+    modal.classList.remove('hidden'); //hiden é para deixar invisivel na tela 
 
     if (tarefa){ // Prenche os campos para edição 
         document.getElementById('modalTitulo').innerText = 'Editar Tarefa';
@@ -111,8 +111,8 @@ async function editarTarefa(id) {
 }
 
 async function concluirTarefa(id) {
-    const result = await Swal.fire({
-    title: "Você tem certeza",
+    const result = await Swal.fire({ //
+    title: "Você tem certeza?",
     text: "Tem certeza que deseja concluir esta tarefa?",
     icon: "question",
     draggable: true,
@@ -123,7 +123,7 @@ async function concluirTarefa(id) {
     cancelButtonText: "Cancelar"
     });
 
-    if (result.isConfirmed){
+    if (result.isConfirmed){ // confirma o result 
         try {
             const response = await fetch(`/api/tarefas/${id}/status`, {
                 method: 'PUT',
@@ -133,7 +133,7 @@ async function concluirTarefa(id) {
             
             if(response.ok){
                 await Swal.fire({
-                title: "Tarefa Concluída",
+                title: "Tarefa Concluída!",
                 text: "Parabéns, você finalizou essa tarefa!",
                 icon: "success",
                 timer: 3000,
@@ -172,24 +172,44 @@ document.getElementById('formTarefa').addEventListener('submit', async (e) => {
         dataPrevistaDate: document.getElementById('dataPrazo').value
     };
 
-    if (editandoId) {
-        // Atualiza tarefa existente
-        await fetch(`/api/tarefas/${editandoId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(novaTarefa)
-        });
-    } else {
-        // Cria nova tarefa
-        await fetch('/api/tarefas', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(novaTarefa)
-        });
-    }
+    try{
+        if (editandoId) {
+            // Atualiza tarefa existente
+            await fetch(`/api/tarefas/${editandoId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novaTarefa)
+            });
 
-    fecharModal();
-    carregarTarefas();
+            Swal.fire({
+                title: "Tarefa Atualizada!",
+                icon: "success",
+                timer: 3000,
+                showConfirmButton: false
+            });
+
+        } else {
+            // Cria nova tarefa
+            await fetch('/api/tarefas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novaTarefa)
+            });
+
+            Swal.fire({
+                title: "Tarefa adicionada com sucesso!",
+                icon: "success",
+                timer: 3000,
+                showConfirmButton: false
+            });
+        }
+
+        fecharModal();
+        carregarTarefas();
+    } catch (error){
+        console.error("Erro ao salvar tarefa:", error);
+        Swal.fire("Erro!", "Não foi possível salvar a tarefa.", "error");
+    }
 });
 
 // Carrega as tarefas ao abrir a página
