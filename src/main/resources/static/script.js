@@ -47,19 +47,34 @@ async function carregarTarefas() {
 
 // Remover Tarefa
 async function removerTarefa(id) {
-    if (confirm("Tem certeza que deseja exluir esta tarefa?")){
-        fetch(`/api/tarefas/${id}`, { method: 'DELETE' })
-        .then(response => {
+    const result = await Swal.fire({
+    title: "Você tem certeza",
+    text: "Tem certeza que deseja excluir esta tarefa?",
+    icon: "warning",
+    draggable: true,
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sim, concluir!",
+    cancelButtonText: "Cancelar"
+    });
+
+    if(result.isConfirmed){
+        try{
+            const response = await fetch(`/api/tarefas/${id}`, { method: 'DELETE' })
+            
             if(response.ok){
-                alert("Tarefa removida com sucesso!");
+                await Swal.fire("Tarefa removida com sucesso!", "", "success");
                 carregarTarefas();
             } else if (response.status === 404){
-                alert("tarefa não encontrada!");
+                Swal.fire("tarefa não encontrada!", "", "error");
             } else{
-                alert("Erro ao remover a tarefa!");
+                Swal.fire("Erro ao remover a tarefa!", "", "error");
             }
-        })
-        .catch(Error => console.error("Erro:", error));
+        } catch(error){
+            console.error("Erro:", error);
+            Swal.fire("Falha na comunicação com o servidor!", "", "error")
+        }
     }
 }
 
@@ -96,7 +111,19 @@ async function editarTarefa(id) {
 }
 
 async function concluirTarefa(id) {
-    if (confirm ("Tem certeza que deseja concluir tarefa?")) {
+    const result = await Swal.fire({
+    title: "Você tem certeza",
+    text: "Tem certeza que deseja concluir esta tarefa?",
+    icon: "question",
+    draggable: true,
+    showCancelButton: true,
+    confirmButtonColor: "#4cd761ff",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sim, concluir!",
+    cancelButtonText: "Cancelar"
+    });
+
+    if (result.isConfirmed){
         try {
             const response = await fetch(`/api/tarefas/${id}/status`, {
                 method: 'PUT',
@@ -105,20 +132,23 @@ async function concluirTarefa(id) {
             });
             
             if(response.ok){
-            alert("Tarefa concluída com sucesso!");
+                await Swal.fire({
+                title: "Tarefa Concluída",
+                text: "Parabéns, você finalizou essa tarefa!",
+                icon: "success",
+                timer: 3000,
+                showConfirmButton: false
+                });
                 carregarTarefas();
-            } else if (response.status === 404){
-                alert("tarefa não encontrada!");
             } else{
-                alert("Erro ao concluir a tarefa!");
+                Swal.fire("Erro!", "Não foi possível concluir a tarefa.", "error")
             }
-        } catch(error){
-            console.error("Erro:" , error);
-            alert("Falha na comunicação com o servidor!");
+        } catch(error) {
+            console.error("Erro:", error);
+            Swal.fire("Falha na comunicação com o servidor!", "", "error");
         }
     }
 }
-    
 
 // --- Eventos da página ---
 
