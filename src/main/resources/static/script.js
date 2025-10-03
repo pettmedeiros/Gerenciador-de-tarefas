@@ -55,7 +55,7 @@ async function removerTarefa(id) {
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Sim, concluir!",
+    confirmButtonText: "Sim, remover!",
     cancelButtonText: "Cancelar"
     });
 
