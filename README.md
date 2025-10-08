@@ -37,6 +37,7 @@ Um sistema completo para criação, edição, listagem e exclusão de tarefas, d
 
 
 ⚡ Como Executar o Projeto
+
 Backend: 
 
 1- Clone o repositório: 
@@ -52,11 +53,14 @@ Backend:
   mvn spring-boot:run
 
 Frontend:
+
 O front está dentro de src/main/resources/static/
 Basta rodar o backend e abrir o navegador em: http://localhost:8080
 
  # Autor
    
    Peterson Lisboa Medeiros
+   
   🎯 Estudante de Análise e Desenvolvimento de Sistemas
+  
    https://www.linkedin.com/in/peterson-medeiros-b54307318/
