@@ -10,7 +10,7 @@ Um sistema completo para criação, edição, listagem e exclusão de tarefas, d
 - **Maven**: Gerenciador de dependências e construção.**
 - **H2 Database e PostgreSQL**
 - **Postman** (para testar a API)**7
-- 
+
 💻 Frontend
 - **HTML5**
 - **CSS3**
