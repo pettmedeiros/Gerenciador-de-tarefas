@@ -18,13 +18,13 @@ Um sistema completo para criação, edição, listagem e exclusão de tarefas, d
 
 ⚙️ Funcionalidades
 
--✅ Criar novas tarefas
--✏️ Editar tarefas existentes
--🗑️ Remover tarefas com confirmação
--✅ Marcar tarefas como concluídas
--📅 Definir prazos e prioridades
--📊 Contadores automáticos de tarefas (Total, Pendentes e Concluídas)
--💬 Feedback visual com Swal.fire (mensagens de sucesso, erro e confirmação)
+- ✅ Criar novas tarefas
+- ✏️ Editar tarefas existentes
+- 🗑️ Remover tarefas com confirmação
+- ✅ Marcar tarefas como concluídas
+- 📅 Definir prazos e prioridades
+- 📊 Contadores automáticos de tarefas (Total, Pendentes e Concluídas)
+- 💬 Feedback visual com Swal.fire (mensagens de sucesso, erro e confirmação)
 
 🧠 Conceitos Praticados
 
