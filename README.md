@@ -38,29 +38,38 @@ Um sistema completo para criação, edição, listagem e exclusão de tarefas, d
 
 ⚡ Como Executar o Projeto
 
-Backend: 
+**Backend:**
 
 1- Clone o repositório: 
   git clone git@github.com:pettmedeiros/Gerenciador-de-tarefas.git
   
 2- Configure o banco no arquivo application.properties:
-  spring.datasource.url=jdbc:postgresql://localhost:5432/gerenciador_tarefas
-  spring.datasource.username=seu_usuario
-  spring.datasource.password=sua_senha
-  spring.jpa.hibernate.ddl-auto=update
+- spring.datasource.url=jdbc:postgresql://localhost:5432/gerenciador_tarefas
+- spring.datasource.username=seu_usuario
+- spring.datasource.password=sua_senha
+- spring.jpa.hibernate.ddl-auto=update
+  
 
 3-Execute a aplicação (pela IDE ou terminal):
   mvn spring-boot:run
 
-Frontend:
+**Frontend:**
 
 O front está dentro de src/main/resources/static/
 Basta rodar o backend e abrir o navegador em: http://localhost:8080
+
+🧾 **Exemplo de Uso**
+- Crie uma nova tarefa
+- Edite o título ou a prioridade
+- Marque como concluída
+- Delete com confirmação
+- 
+<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/e1aa2558-e5a1-4df5-984a-18820881bc7c" />
 
  # Autor
    
    Peterson Lisboa Medeiros
    
-  🎯 Estudante de Análise e Desenvolvimento de Sistemas
+  🎯 Estudante de Análise e Desenvolvimento de Sistemas 
   
    https://www.linkedin.com/in/peterson-medeiros-b54307318/
