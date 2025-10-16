@@ -2,6 +2,7 @@ package com.peterson.gerenciador_tarefas.entities;
 
 import java.time.LocalDate;
 
+import com.peterson.gerenciador_tarefas.dto.TarefaDTO;
 import com.peterson.gerenciador_tarefas.entities.enums.Prioridade;
 import com.peterson.gerenciador_tarefas.entities.enums.TaskStatus;
 
@@ -46,7 +47,7 @@ public class Tarefa {
     }
 
     public Tarefa(Long idTarefa, String titulo, String descricao, LocalDate dataCriacao, LocalDate dataPrevistaDate,
-            TaskStatus status, Prioridade prioridade) {
+        TaskStatus status, Prioridade prioridade) {
         this.idTarefa = idTarefa;
         this.titulo = titulo;
         this.descricao = descricao;

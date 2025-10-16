@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.peterson.gerenciador_tarefas.dto.TarefaDTO;
 import com.peterson.gerenciador_tarefas.entities.Tarefa;
 import com.peterson.gerenciador_tarefas.entities.enums.TaskStatus;
 import com.peterson.gerenciador_tarefas.service.GerenciadorTarefas;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/tarefas")
@@ -26,45 +29,54 @@ public class TarefaController {
         this.gerenciador = gerenciador;
     }
 
+    //Busca todas as tarefas
     @GetMapping
-    public List<Tarefa> listar(){
-        return gerenciador.listarTarefas();
+    public List<TarefaDTO> listar(){
+        return gerenciador.listarTarefas()
+        .stream()
+        .map(TarefaDTO::new) //converte cada tarefa em tarefaDTO
+        .toList();
     }
 
+    //Buusca a tarefa pelo seu id
     @GetMapping("/{id}")
-    public ResponseEntity<Tarefa> buscar(@PathVariable Long id){
+    public ResponseEntity<TarefaDTO> buscar(@PathVariable Long id){
         return gerenciador.buscarTarefaPorId(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+        .map(t -> ResponseEntity.ok(new TarefaDTO(t))) //se encotrar tarefa, converse o DTO e da 200 ok
+        .orElse(ResponseEntity.notFound().build()); //se não, da erro 404 (Not found)
     }
 
     @PostMapping
-    public ResponseEntity<Tarefa> criar(@RequestBody Tarefa tarefa){
-        Tarefa tarefaSalva = gerenciador.adicionarTarefa(tarefa);
-        return ResponseEntity.status(201).body(tarefaSalva);
+    public ResponseEntity<TarefaDTO> criar(@Valid @RequestBody TarefaDTO dto){
+        Tarefa tarefa = dto.toEntity();
+        Tarefa salva = gerenciador.adicionarTarefa(tarefa);
+
+        return ResponseEntity.status(201).body(new TarefaDTO(salva)); //retorna a atualização em DTO
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<Tarefa> atualizarStatus(@PathVariable Long id, @RequestBody TaskStatus status){
-        return gerenciador.buscarTarefaPorId(id).map(t -> {
+    public ResponseEntity<TarefaDTO> atualizarStatus(@Valid @PathVariable Long id, @RequestBody TaskStatus status){
+        return gerenciador.buscarTarefaPorId(id)
+        .map(t -> {
             t.atualizarStatus(status); // Assume que Tarefa tem esse método
             Tarefa atualizada = gerenciador.adicionarTarefa(t); //Salva a atualização 
-            return ResponseEntity.ok(atualizada);
-        }).orElse(ResponseEntity.notFound().build());
+            return ResponseEntity.ok(new TarefaDTO(atualizada)); //retorna dto
+        })
+        .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Tarefa> atualizar(@PathVariable Long id, @RequestBody Tarefa tarefaAtualizada) {
-        return gerenciador.buscarTarefaPorId(id).map(t -> {
+    public ResponseEntity<TarefaDTO> atualizar(@Valid @PathVariable Long id, @RequestBody TarefaDTO tarefaAtualizada) {
+        return gerenciador.buscarTarefaPorId(id)
+        .map(t -> {
             t.setTitulo(tarefaAtualizada.getTitulo());
             t.setDescricao(tarefaAtualizada.getDescricao());
-            t.setDataCriacao(tarefaAtualizada.getDataCriacao());
             t.setDataPrevistaDate(tarefaAtualizada.getDataPrevistaDate());
             t.setStatus(tarefaAtualizada.getStatus());
             t.setPrioridade(tarefaAtualizada.getPrioridade());
 
             Tarefa atualizada = gerenciador.adicionarTarefa(t); 
-            return ResponseEntity.ok(atualizada);   // agora funciona
+            return ResponseEntity.ok(new TarefaDTO(atualizada));   //Retorna dto,não entidade
         }).orElse(ResponseEntity.notFound().build());
     }
 
