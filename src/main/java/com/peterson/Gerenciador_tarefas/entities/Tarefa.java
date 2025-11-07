@@ -2,7 +2,6 @@ package com.peterson.gerenciador_tarefas.entities;
 
 import java.time.LocalDate;
 
-import com.peterson.gerenciador_tarefas.dto.TarefaDTO;
 import com.peterson.gerenciador_tarefas.entities.enums.Prioridade;
 import com.peterson.gerenciador_tarefas.entities.enums.TaskStatus;
 
