@@ -12,6 +12,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Tarefa {
@@ -39,6 +41,10 @@ public class Tarefa {
     @Enumerated(EnumType.STRING)//armazena o valor em forma de texto
     @Column(nullable = false)    
     private Prioridade prioridade;
+
+    @ManyToMany //cada tarefa pertence a um usuario
+    @JoinColumn(name = "name_id")
+    private Usuario usuario;
 
     public Tarefa(){ //instancia automaticamente a data atual e status pendente
         this.dataCriacao = LocalDate.now();
