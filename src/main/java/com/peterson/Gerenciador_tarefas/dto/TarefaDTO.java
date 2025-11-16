@@ -3,6 +3,7 @@ package com.peterson.gerenciador_tarefas.dto;
 import java.time.LocalDate;
 
 import com.peterson.gerenciador_tarefas.entities.Tarefa;
+import com.peterson.gerenciador_tarefas.entities.Usuario;
 import com.peterson.gerenciador_tarefas.entities.enums.Prioridade;
 import com.peterson.gerenciador_tarefas.entities.enums.TaskStatus;
 
@@ -43,7 +44,7 @@ public class TarefaDTO {
     }
 
     //Método que converte o DTO de volta para a ENTIDADE
-    public Tarefa toEntity(){
+    public Tarefa toEntity(Usuario usuario){
         Tarefa tarefa = new Tarefa();
         tarefa.setTitulo(this.titulo);
         tarefa.setDescricao(this.descricao);
@@ -51,6 +52,7 @@ public class TarefaDTO {
         tarefa.setDataPrevistaDate(this.dataPrevistaDate);
         tarefa.setStatus(this.status);
         tarefa.setPrioridade(this.prioridade);
+        tarefa.setUsuario(usuario);
 
         return tarefa;
     }
