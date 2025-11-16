@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Tarefa {
@@ -42,8 +43,8 @@ public class Tarefa {
     @Column(nullable = false)    
     private Prioridade prioridade;
 
-    @ManyToMany //cada tarefa pertence a um usuario
-    @JoinColumn(name = "name_id")
+    @ManyToOne //cada tarefa pertence a um usuario
+    @JoinColumn(name = "usuario_id", nullable = false) // usuário é obrigatório
     private Usuario usuario;
 
     public Tarefa(){ //instancia automaticamente a data atual e status pendente
@@ -52,7 +53,7 @@ public class Tarefa {
     }
 
     public Tarefa(Long idTarefa, String titulo, String descricao, LocalDate dataCriacao, LocalDate dataPrevistaDate,
-        TaskStatus status, Prioridade prioridade) {
+        TaskStatus status, Prioridade prioridade, Usuario usuario) {
         this.idTarefa = idTarefa;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -60,6 +61,7 @@ public class Tarefa {
         this.dataPrevistaDate = dataPrevistaDate;
         this.status = status;
         this.prioridade = prioridade;
+        this.usuario = usuario;
     }
 
     public Long getIdTarefa() {
@@ -121,6 +123,14 @@ public class Tarefa {
     public void atualizarStatus(TaskStatus novoStatus){
         this.status = novoStatus;
     }
+    
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     @Override
     public String toString() {
@@ -130,6 +140,4 @@ public class Tarefa {
                 ", status=" + status +
                 ", prioridade=" + prioridade + "]";
     }
-    
-    
 }

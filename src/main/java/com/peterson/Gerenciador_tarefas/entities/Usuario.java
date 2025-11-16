@@ -1,10 +1,15 @@
 package com.peterson.gerenciador_tarefas.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -17,10 +22,10 @@ public class Usuario {
     @Column(nullable = false, length = 100) // não acc campo vazio e tamanho maximo de 100 caracteres
     private String nome;
 
-    @Column(nullable =  false, length = 11)
+    @Column(nullable =  false, length = 11, unique = true)
     private String cpf;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
 
     @Column(nullable = false )
@@ -28,6 +33,8 @@ public class Usuario {
     message = "A senha deve conter letra maiúscula, minúscula, número e caractere especial")
     private String senha;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tarefa>  tarefas = new ArrayList<>();
     public Usuario() {
     }
 
@@ -78,6 +85,12 @@ public class Usuario {
         this.senha = senha;
     }
 
-    
+    public List<Tarefa> getTarefas() {
+        return tarefas;
+    }
+
+    public void setTarefas(List<Tarefa> tarefas) {
+        this.tarefas = tarefas;
+    }
 
 }
