@@ -114,7 +114,7 @@ public class TarefaController {
 
     //Atualizar tudo 
     @PutMapping("/{id}")
-    public ResponseEntity<TarefaDTO> atualizar(@Valid @PathVariable Long id, @RequestBody TarefaDTO tarefaAtualizada, @RequestHeader("Autorizado") String auth) {
+    public ResponseEntity<TarefaDTO> atualizar(@Valid @PathVariable Long id, @RequestBody TarefaDTO tarefaAtualizada, @RequestHeader("Authorization") String auth) {
         Usuario usuario = getUsuarioLogado(auth);
         try {
             Tarefa tarefa = gerenciador.atualizarTarefa(id, tarefaAtualizada , usuario);
@@ -125,7 +125,7 @@ public class TarefaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Tarefa> delete (@PathVariable Long id, @RequestHeader("Autorizado") String auth){
+    public ResponseEntity<Tarefa> delete (@PathVariable Long id, @RequestHeader("Authorization") String auth){
         Usuario usuario = getUsuarioLogado(auth);
         try {
             gerenciador.removerTarefa(id, usuario);
