@@ -8,10 +8,29 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div class="container">
+
+    <!-- Tela de boas vindas-->
+     <div id="telaBoasVindas" class="container center">
+        <div class="card">
+            <h1>Gerenciador de tarefas</h1>
+            <p>Organize sua vida dua sua maneira!</p>
+            <div class="btn-group">
+                <button class="btn-primary" onclick="abrirLogin()">Fazer Login</button>
+                <button class="btn-secondary" onclick="abrirCadastro()">Criar Conta</button>
+            </div>
+        </div>
+     </div>
+
+    <!--Pagina logada-->
+    <div id="telaPrincipal" class="container hidden">
         <header class="header">
-            <h1>Gerenciador de Tarefas</h1>
-            <button id="btnNovaTarefa" class="btn-primary">+ Nova Tarefa</button>
+            <h1>Minhas Tarefas</h1>
+            <div>
+                <span id="usuarioLogado">
+                    <button class="btn-logout" onclick="logout()">Sair</button>
+                    <button id="btnNovaTarefa" class="btn-primary">+ Nova Tarefa</button>
+                </span>
+            </div>
         </header>
 
         <main>
@@ -19,9 +38,7 @@
                 <input type="text" id="buscar" placeholder="Buscar tarefas ...">
             </div>
 
-            <section id="lista-tarefas" class="task-list">
-
-            </section>
+            <section id="lista-tarefas" class="task-list"></section>
 
             <footer class="stats">
                 <div class="total">Total: <span id="total"></span></div>

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.peterson.gerenciador_tarefas.entities.Tarefa;
+import com.peterson.gerenciador_tarefas.entities.Usuario;
 import com.peterson.gerenciador_tarefas.entities.enums.Prioridade;
 import com.peterson.gerenciador_tarefas.entities.enums.TaskStatus;
 
@@ -13,4 +14,5 @@ import com.peterson.gerenciador_tarefas.entities.enums.TaskStatus;
 public interface TarefaRepository extends JpaRepository<Tarefa, Long>{
     List<Tarefa> findByStatus(TaskStatus status);
     List<Tarefa> findByPrioridade(Prioridade prioridade);    
+    List<Tarefa> findByUsuario(Usuario usuario);
 } 

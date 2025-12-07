@@ -1,7 +1,149 @@
+//Função para carregar 
+const API_BASE = '/api';
+let token = localStorage.getItem('token');
+
+// Verifica se esta logado
+async function verificarlogin() {
+    if(token){
+        document.getElementById('telaBoasVindas').classList.add('hidden');
+        document.getElementById('telaPrincipal').classList.add('hidden');
+
+        try{ //// Extrai o email do token JWT e exibe no header
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            document.getElementById('usuarioLogado').innerText = payload.sub;
+        } catch{
+            document.getElementById('usuarioLogado').innerText = "Usuário";
+        }
+
+        carregarTarefas();
+    }
+}
+
+//Abre modal para efetuar login
+async function abrirLogin(){
+    Swal.fire({
+        title: 'login',
+        html:`
+            <input type="email" id="loginEmail" class="swal2-input" placeholder="Email" required>
+            <input type="senha" id="loginSenha" class="swal2-input" placeholder="Senha" required>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Entrar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {            
+            const email = document.getElementById('loginEmail').value;
+            const senha = document.getElementById('loginSenha').value;
+            if(!email || !senha){
+                Swal.showValidationMessage('Preencha email e senha');
+                return false;
+            }
+            return { email, senha};
+        }
+        
+    }).then(async (result) => {
+        if(result.isConfirmed){
+            const {email, senha} = result.value;
+            try{
+                const res = await fetch(`${API_BASE}/usuarios/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type' : 'application/json'},
+                    body: JSON.stringify({email, senha})
+                });
+                if(res.ok){
+                    const data = await res.json();
+                    token = data.token;
+                    localStorage.setItem('token', token);
+                    verificarlogin();
+                    Swal.fire('Sucesso!', 'Login realizado com sucesso!', 'sucess');
+                }else{
+                    Swal.fire('Erro', 'Email ou senha incorretos', 'error');
+                }
+            } catch (err){
+                Swal.fire('Erro', 'Não foi possível conectar ao servidor', 'error');
+            }
+        }
+    });
+}
+
+
+//Abre modal para efetuar cadastro 
+async function abrirCadastro() {
+    Swal.fire({
+        title: 'Fazer Cadastro', 
+        html: `
+            <input type="text" id="cadNome" class="swal2-input" placeholder="Nome Completo" required>
+            <input type="text" id="cadCpf" class="swal2-input" placeholder="CPF (apenas números)" required>
+            <input type="email" id="cadEmail" class="swal2-input" placeholder="Email" required>
+            <input type="senha" id="cadSenha" class="swal2-input" placeholder="Senha" required>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Entrar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+            const nome = document.getElementById('cadNome').value;
+            const cpf = document.getElementById('cadCpf').value;
+            const email = document.getElementById('cadEmail').value;
+            const senha = document.getElementById('cadSenha').value;
+            
+            if(!nome || !cpf || !email || !senha){
+                Swal.showValidationMessage('Preencha todos os campos');
+                return false;
+            };
+            return {nome, cpf, email, senha};
+        }
+
+    }).then(async (result) =>{
+        if (result.isConfirmed){
+            const dados = result.value;
+            try {
+                const res = await fetch(`${API_BASE}/usuarios/cadastrar`, {
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify(dados)
+                })
+                if (res.ok){
+                    Swal.fire('Sucesso!', 'Cadastro realizado com sucesso!', 'sucess');
+                } else{
+                    Swal.fire('Erro', 'Não foi possível conectar ao servidor', 'error');
+                }
+            } catch (error) {
+                Swal.fire('Erro', 'Não foi possível conectar ao servidor', 'error');
+            }
+        }
+    })
+ 
+}
+
+// Logout
+function logout() {
+    localStorage.removeItem('token');
+    token = null;
+    document.getElementById('telaPrincipal').classList.add('hidden');
+    document.getElementById('telaBoasVindas').classList.remove('hidden');
+}
+
+// Função genérica pra chamadas com token
+async function apiFetch(url, options = {}) {
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(token && { 'Authorization': `Bearer ${token}` })
+    };
+    const res = await fetch(url, { ...options, headers });
+    if (res.status === 401) {
+        logout();
+        Swal.fire('Sessão expirada', 'Faça login novamente', 'warning');
+    }
+    return res;
+}
+
 
 // Função principal para carregar as tarefas da API e renderizar na tela
 async function carregarTarefas() {
-    const response = await fetch('/api/tarefas');
+    const response = await apiFetch(`${API_BASE}/tarefas`);
+
+    if (!response || !response.ok) {
+        return;
+    }
     const tarefas = await response.json(); //converte a resposta Json em JS
     
     const lista = document.getElementById('lista-tarefas');
@@ -214,3 +356,8 @@ document.getElementById('formTarefa').addEventListener('submit', async (e) => {
 
 // Carrega as tarefas ao abrir a página
 document.addEventListener('DOMContentLoaded', carregarTarefas);
+
+// Inicia a aplicação
+document.addEventListener('DOMContentLoaded', () => {
+    verificarLogin();
+});
