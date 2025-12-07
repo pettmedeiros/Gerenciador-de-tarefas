@@ -39,7 +39,14 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/usuarios/cadastrar", "/api/usuarios/login").permitAll()
+                .requestMatchers(
+                    "/", 
+                    "/index.html", 
+                    "/script.js", 
+                    "/style.css",
+                    "/api/usuarios/cadastrar", 
+                    "/api/usuarios/login"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
