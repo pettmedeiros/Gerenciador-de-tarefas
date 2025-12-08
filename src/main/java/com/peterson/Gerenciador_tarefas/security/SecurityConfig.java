@@ -41,7 +41,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/", 
-                    "/index.html", 
+                    "/index.html",
+                    "/dashboard.html",
                     "/script.js", 
                     "/style.css",
                     "/api/usuarios/cadastrar", 

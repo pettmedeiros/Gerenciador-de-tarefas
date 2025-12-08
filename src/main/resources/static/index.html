@@ -3,83 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciador de tarefas</title>
+    <title>Bem-vindo | Gerenciador de Tarefas</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-
-    <!-- Tela de boas vindas-->
-     <div id="telaBoasVindas" class="container center">
-        <div class="card">
-            <h1>Gerenciador de tarefas</h1>
-            <p>Organize sua vida dua sua maneira!</p>
-            <div class="btn-group">
-                <button class="btn-primary" onclick="abrirLogin()">Fazer Login</button>
-                <button class="btn-secondary" onclick="abrirCadastro()">Criar Conta</button>
-            </div>
-        </div>
-     </div>
-
-    <!--Pagina logada-->
-    <div id="telaPrincipal" class="container hidden">
-        <header class="header">
-            <h1>Minhas Tarefas</h1>
-            <div>
-                <span id="usuarioLogado">
-                    <button class="btn-logout" onclick="logout()">Sair</button>
-                    <button id="btnNovaTarefa" class="btn-primary">+ Nova Tarefa</button>
-                </span>
-            </div>
-        </header>
-
-        <main>
-            <div class="search-bar">
-                <input type="text" id="buscar" placeholder="Buscar tarefas ...">
-            </div>
-
-            <section id="lista-tarefas" class="task-list"></section>
-
-            <footer class="stats">
-                <div class="total">Total: <span id="total"></span></div>
-                <div class="pendentes">Pendentes: <span id="pendentes"></span></div>
-                <div class="concluidas">Concluídas: <span id="concluidas"></span></div>
-            </footer>
-        </main>
-        
-        <div id="modalNovaTarefa" class="modal hidden">
-            <div class="modal-content">
-                <span class="close" onclick="fecharModal()">&times;</span>;
-                <h2 id="modalTitulo">Nova Tarefa</h2>
-                <form id="formTarefa">
-                    <label for="titulo">Título:</label>
-                    <input type="text" id="titulo" name="titulo" required>
-
-                    <label for="descricao">Descrição:</label>
-                    <textarea id="descricao" name="descricao" rows="3"></textarea>
-
-                    <label for="prioridade">Prioridade:</label>
-                    <select id="prioridade" name="prioridade" required>
-                        <option value="BAIXA">Baixa</option>
-                        <option value="MEDIA">Média</option>
-                        <option value="ALTA">Alta</option>
-                    </select>
-
-                    <label for="status">Status:</label>
-                    <select id="status" name="status" required>
-                        <option value="PENDENTE">Pendente</option>
-                        <option value="EM_ANDAMENTO">Em Andamento</option>
-                        <option value="CONCLUIDA">Concluída</option>
-                    </select>
-
-                    <label for="dataPrazo">Prazo:</label>
-                    <input type="date" id="dataPrazo" name="dataPrazo" required>
-
-                    <button type="submit" class="btn-primary">Salvar</button>
-                </form>
-            </div>
+    <div class="container center">
+        <h1>Gerenciador de Tarefas</h1>
+        <p>Organize sua vida da sua maneira!</p>
+        <div class="btn-group">
+            <button class="btn-primary" onclick="abrirLogin()">Fazer Login</button>
+               <button class="btn-secondary" onclick="abrirCadastro()">Criar Conta</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
