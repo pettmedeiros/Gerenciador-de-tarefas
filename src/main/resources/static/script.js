@@ -32,10 +32,10 @@ async function exibirUsuarioLogado() {
 //Abre modal para efetuar login
 async function abrirLogin(){
     Swal.fire({
-        title: 'login',
+        title: 'Fazer Login',
         html:`
             <input type="email" id="loginEmail" class="swal2-input" placeholder="Email" required>
-            <input type="senha" id="loginSenha" class="swal2-input" placeholder="Senha" required>
+            <input type="password" id="loginSenha" class="swal2-input" placeholder="Senha" required>
         `,
         showCancelButton: true,
         confirmButtonText: 'Entrar',
@@ -56,14 +56,14 @@ async function abrirLogin(){
             try{
                 const res = await fetch(`${API_BASE}/usuarios/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type' : 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({email, senha})
                 });
                 if(res.ok){
                     const data = await res.json();
                     token = data.token;
                     localStorage.setItem('token', token);
-                    verificarlogin();
+                    verificarRota();
                     Swal.fire('Sucesso!', 'Login realizado com sucesso!', 'sucess');
                 }else{
                     Swal.fire('Erro', 'Email ou senha incorretos', 'error');

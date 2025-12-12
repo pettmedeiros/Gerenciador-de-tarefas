@@ -31,7 +31,7 @@ public class SecurityConfig {
         AuthenticationManager authManager = authenticationConfiguration.getAuthenticationManager();
 
         JwtAuthenticationFilter authFilter = new JwtAuthenticationFilter(authManager, jwtUtil);
-        authFilter.setFilterProcessesUrl("/api/usuarios/login");
+        authFilter.setFilterProcessesUrl("/api/usuarios/login");  // Define a rota que acionará o filtro de autenticação (substitui a padrão /login)
 
         JwtAuthorizationFilter authorizationFilter = new JwtAuthorizationFilter(authManager, jwtUtil);
 
@@ -45,10 +45,10 @@ public class SecurityConfig {
                     "/dashboard.html",
                     "/script.js", 
                     "/style.css",
-                    "/api/usuarios/cadastrar", 
-                    "/api/usuarios/login"
-                ).permitAll()
-                .anyRequest().authenticated()
+                    "/api/usuarios/cadastrar", // rota pública para criação de usuário
+                    "/api/usuarios/login" // rota pública para fazer login
+                ).permitAll() // permitem acesso sem token
+                .anyRequest().authenticated() // todas as outras precisam de JWT
             )
             .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
@@ -61,7 +61,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // ESSA É A FORMA CORRETA EM 2025 (SPRING BOOT 3.5+)
     @Bean
     public UserDetailsService userDetailsService(UsuarioRepository usuarioRepository) {
         return email -> usuarioRepository.findByEmail(email)

@@ -1,10 +1,89 @@
-body{
-    font-family: arial, sans-serif;
-    background: #fafafa;
-    margin: 0;
-    padding: 0;
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizzing: border-box;
 }
 
+
+body{ /*Define fonte, cores e fundo padrão*/
+    font-family: arial, sans-serif;
+    background: #fafafa;
+    color: #333
+}
+
+/* Tela de boas vindas - index.html */
+
+.container.center{
+    max-width: 1200px; /* largura máxima da página */
+    margin: 4rem auto; /* centraliza horizontalmente */
+    padding: 2rem;  /* espaçamento interno */
+}
+
+/* GRID TOPO 
+Divide a tela em duas colunas:
+   - Texto à esquerda
+   - Botões à direita */
+.top-grid {
+  display: grid;
+  grid-template-columns: 1fr auto; /* texto à esquerda | botões à direita */
+  align-items: start; /* alinha itens pelo topo */
+  gap: 20px;
+}
+
+.bem-vindo-texto h1{
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.bem-vindo-texto p{
+  font-size: 1.4rem;
+  color: #555;
+}
+
+/* Grupo de botões */
+.btn-group{
+  margin-top: 0.4rem;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-group button {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-login {
+  background: #667eea;
+  color: white;
+}
+
+.btn-login:hover{
+  transform: translateY(-4px); /* efeito de elevação */
+  box-shadow: 0px 6px 18px rgba(100, 120, 255, 0.35);
+}
+
+.btn-cadastro {
+  background: #764ba2;
+  color: white;
+}
+
+.btn-cadastro:hover{
+  transform: translateY(-4px); /* efeito de elevação */
+  box-shadow: 0px 6px 18px rgba(100, 120, 255, 0.35);
+}
+
+
+/*
 .container{
     max-width: 1200px;
     margin: 2rem auto;
@@ -164,4 +243,13 @@ body{
   right: 15px;
   font-size: 1.5rem;
   cursor: pointer;
+}
+*/
+
+/* Responsivo — em celular os botões voltam ao centro */
+@media (max-width: 992px) {
+    .welcome-buttons {
+        justify-content: center;
+        padding-right: 0;
+    }
 }
