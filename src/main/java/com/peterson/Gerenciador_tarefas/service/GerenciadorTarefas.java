@@ -31,7 +31,7 @@ public class GerenciadorTarefas {
 
     public Optional<Tarefa> buscarTarefaDoUsuario(Long id, Usuario usuario) {
         return repository.findById(id)
-                .filter(t -> t.getUsuario().equals(usuario));
+                .filter(t -> t.getUsuario().getId().equals(usuario.getId()));
     }
 
     public Tarefa atualizarTarefa(Long id, TarefaDTO dto, Usuario usuario) {

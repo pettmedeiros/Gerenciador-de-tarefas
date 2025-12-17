@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minhas Tarefas</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
         <header class="header">
             <h1>Minhas Tarefas</h1>
-            <div>
-                <span id="usuarioLogado">
-                    <strong id="usuarioLogado">Usuário</strong>
-                    <button class="btn-logout" onclick="logout()">Sair</button>
-                    <button id="btnNovaTarefa" class="btn-primary" onclick="abrirModal()">+ Nova Tarefa</button>
-                </span>
+            <div class="header-actions">
+                <strong id="usuarioLogado">Usuário</strong>
+                <button id="btnNovaTarefa" class="btn-primary" onclick="abrirModal()">+ Nova Tarefa</button>
+                <button class="btn-logout" onclick="logout()">Sair</button>
             </div>
         </header>
         <main>
@@ -33,7 +33,7 @@
         
         <div id="modalNovaTarefa" class="modal hidden">
             <div class="modal-content">
-                <span class="close" onclick="fecharModal()">&times;</span>;
+                <span class="close" onclick="fecharModal()">&times;</span>
                 <h2 id="modalTitulo">Nova Tarefa</h2>
                 <form id="formTarefa">
                     <label for="titulo">Título:</label>

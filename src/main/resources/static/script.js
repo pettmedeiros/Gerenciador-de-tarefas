@@ -64,7 +64,7 @@ async function abrirLogin(){
                     token = data.token;
                     localStorage.setItem('token', token);
                     verificarRota();
-                    Swal.fire('Sucesso!', 'Login realizado com sucesso!', 'sucess');
+                    Swal.fire('Sucesso!', 'Login realizado com sucesso!', 'success');
                 }else{
                     Swal.fire('Erro', 'Email ou senha incorretos', 'error');
                 }
@@ -83,7 +83,7 @@ async function abrirCadastro() {
             <input type="text" id="cadNome" class="swal2-input" placeholder="Nome Completo" required>
             <input type="text" id="cadCpf" class="swal2-input" placeholder="CPF (apenas números)" required>
             <input type="email" id="cadEmail" class="swal2-input" placeholder="Email" required>
-            <input type="senha" id="cadSenha" class="swal2-input" placeholder="Senha" required>
+            <input type="password" id="cadSenha" class="swal2-input" placeholder="Senha" required>
         `,
         showCancelButton: true,
         confirmButtonText: 'Entrar',
@@ -111,7 +111,7 @@ async function abrirCadastro() {
                     body: JSON.stringify(dados)
                 })
                 if (res.ok){
-                    Swal.fire('Sucesso!', 'Cadastro realizado com sucesso!', 'sucess');
+                    Swal.fire('Sucesso!', 'Cadastro realizado com sucesso!', 'success');
                 } else{
                     Swal.fire('Erro', 'Não foi possível conectar ao servidor', 'error');
                 }
@@ -212,7 +212,7 @@ async function removerTarefa(id) {
 
     if(result.isConfirmed){
         try{
-            const response = await fetch(`/api/tarefas/${id}`, { method: 'DELETE' })
+            const response = await apiFetch(`/api/tarefas/${id}`, { method: 'DELETE' })
             
             if(response.ok){
                 await Swal.fire("Tarefa removida com sucesso!", "", "success");
@@ -256,7 +256,7 @@ function fecharModal(){
 
 // Editar Tarefa
 async function editarTarefa(id) {
-    const response = await fetch(`/api/tarefas/${id}`);
+    const response = await apiFetch(`/api/tarefas/${id}`);
     const tarefa = await response.json();
     abrirModal(tarefa);
 }
@@ -276,9 +276,8 @@ async function concluirTarefa(id) {
 
     if (result.isConfirmed){ // confirma o result 
         try {
-            const response = await fetch(`/api/tarefas/${id}/status`, {
+            const response = await apiFetch(`/api/tarefas/${id}/status`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify("CONCLUIDA")
             });
             
@@ -326,9 +325,8 @@ document.getElementById('formTarefa').addEventListener('submit', async (e) => {
     try{
         if (editandoId) {
             // Atualiza tarefa existente
-            await fetch(`/api/tarefas/${editandoId}`, {
+            await apiFetch(`/api/tarefas/${editandoId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(novaTarefa)
             });
 
@@ -341,9 +339,8 @@ document.getElementById('formTarefa').addEventListener('submit', async (e) => {
 
         } else {
             // Cria nova tarefa
-            await fetch('/api/tarefas', {
+            await apiFetch('/api/tarefas', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(novaTarefa)
             });
 

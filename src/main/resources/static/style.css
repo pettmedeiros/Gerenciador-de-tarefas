@@ -2,7 +2,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizzing: border-box;
+  box-sizing: border-box;
 }
 
 
@@ -82,8 +82,8 @@ Divide a tela em duas colunas:
   box-shadow: 0px 6px 18px rgba(100, 120, 255, 0.35);
 }
 
+/* Tela Logada - dashboard.html */
 
-/*
 .container{
     max-width: 1200px;
     margin: 2rem auto;
@@ -92,14 +92,30 @@ Divide a tela em duas colunas:
 }
 
 .header{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    padding: 1rem, 2rem;
+    padding: 1rem 2rem;
     background: #fff;
     border-bottom: 1px solid #ddd;
 }
 
+/* Título do dashboard */
+.header h1 {
+    font-size: 2.8rem;
+    color: #667eea;
+    font-weight: 700;
+}
+
+/* Área de ações no canto superior direito */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+/*Botão principal */
 .btn-primary {
   background: black;
   color: white;
@@ -107,6 +123,17 @@ Divide a tela em duas colunas:
   border: none;
   border-radius: 6px;
   cursor: pointer;
+}
+
+/*Botão sair */
+.btn-logout{
+  background: black;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .search-bar input {
@@ -244,7 +271,6 @@ Divide a tela em duas colunas:
   font-size: 1.5rem;
   cursor: pointer;
 }
-*/
 
 /* Responsivo — em celular os botões voltam ao centro */
 @media (max-width: 992px) {
