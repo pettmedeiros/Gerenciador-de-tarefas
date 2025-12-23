@@ -1,5 +1,7 @@
-# Gerenciamento de Tarefas
-Um sistema completo para criação, edição, listagem e exclusão de tarefas, desenvolvido como prática de integração entre backend (Java + Spring Boot) e frontend (HTML, CSS, JavaScript).
+# Gerenciador de Tarefas – Full-Stack com Autenticação
+Projeto de estudo desenvolvido com o objetivo de praticar e consolidar conceitos de desenvolvimento Full-Stack, integrando frontend, backend e banco de dados, além de implementar autenticação e controle de acesso por usuário.
+
+O projeto começou como um CRUD simples e evoluiu para uma aplicação mais robusta, com login, segurança e regras de negócio.
 
 ## Tecnologias Utilizadas
 
@@ -14,17 +16,33 @@ Um sistema completo para criação, edição, listagem e exclusão de tarefas, d
 💻 Frontend
 - **HTML5**
 - **CSS3**
--  **JavaScript** 
+-  **JavaScript**
+
+💻 Banco de Dados
+- **PostgreSQL**
 
 ⚙️ Funcionalidades
 
-- ✅ Criar novas tarefas
-- ✏️ Editar tarefas existentes
-- 🗑️ Remover tarefas com confirmação
-- ✅ Marcar tarefas como concluídas
-- 📅 Definir prazos e prioridades
-- 📊 Contadores automáticos de tarefas (Total, Pendentes e Concluídas)
-- 💬 Feedback visual com Swal.fire (mensagens de sucesso, erro e confirmação)
+🔐 Autenticação e Usuários
+- Cadastro de usuários
+- Login com autenticação
+- Controle de acesso via token (JWT)
+- Cada usuário visualiza e gerencia apenas suas próprias tarefas
+
+✅ Gerenciamento de Tarefas
+- Criar tarefas
+- Editar tarefas
+- Concluir tarefas
+- Excluir tarefas
+- Definir prioridade e prazo
+- Atualização dinâmica das informações no frontend
+
+📊 Dashboard
+- Exibição de tarefas em tempo real
+- Contadores automáticos:
+- Total de tarefas
+- Tarefas pendentes
+- Tarefas concluídas
 
 🧠 Conceitos Praticados
 
