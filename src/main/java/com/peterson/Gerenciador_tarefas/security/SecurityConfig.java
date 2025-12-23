@@ -46,7 +46,8 @@ public class SecurityConfig {
                     "/script.js", 
                     "/style.css",
                     "/api/usuarios/cadastrar", // rota pública para criação de usuário
-                    "/api/usuarios/login" // rota pública para fazer login
+                    "/api/usuarios/login", // rota pública para fazer login
+                    "/images/**" //permite acesso as fotos
                 ).permitAll() // permitem acesso sem token
                 .anyRequest().authenticated() // todas as outras precisam de JWT
             )
