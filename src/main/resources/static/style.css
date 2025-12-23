@@ -1,9 +1,133 @@
-body{
-    font-family: arial, sans-serif;
-    background: #fafafa;
-    margin: 0;
-    padding: 0;
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+
+body{ /*Define fonte, cores e fundo padrão*/
+    font-family: arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Tela de boas vindas - index.html */
+
+.container.center{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 60px 20px 100px;
+    text-align: center;
+}
+
+/* GRID TOPO 
+Divide a tela em duas colunas:
+   - Texto à esquerda
+   - Botões à direita */
+.top-grid {
+  display: grid;
+  grid-template-columns: 1fr auto; /* texto à esquerda | botões à direita */
+  align-items: start; /* alinha itens pelo topo */
+  gap: 20px;
+}
+
+.bem-vindo-texto h1{
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.bem-vindo-texto p{
+  font-size: 1.4rem;
+  color: #555;
+}
+
+/* Grupo de botões */
+.btn-group{
+  margin-top: 0.4rem;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-group button {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-login {
+  background: #667eea;
+  color: white;
+}
+
+.btn-login:hover{
+  transform: translateY(-4px); /* efeito de elevação */
+  box-shadow: 0px 6px 18px rgba(100, 120, 255, 0.35);
+}
+
+.btn-cadastro {
+  background: #764ba2;
+  color: white;
+}
+
+.btn-cadastro:hover{
+  transform: translateY(-4px); /* efeito de elevação */
+  box-shadow: 0px 6px 18px rgba(100, 120, 255, 0.35);
+}
+
+/* Imagens */
+.feature{
+  display: flex;
+  align-items: center;
+  gap:40px;
+  margin: 80px 0;
+}
+
+.feature img{
+  max-width: 500px;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
+
+.feature img:hover {
+    transform: scale(1.05);
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  max-width: 400%;
+  text-align: left;
+   gap: 8px; /* espaço entre h3 e p */
+}
+
+.feature-text h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.feature-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Tela Logada - dashboard.html */
 
 .container{
     max-width: 1200px;
@@ -13,14 +137,30 @@ body{
 }
 
 .header{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    padding: 1rem, 2rem;
+    padding: 1rem 2rem;
     background: #fff;
     border-bottom: 1px solid #ddd;
 }
 
+/* Título do dashboard */
+.header h1 {
+    font-size: 2.8rem;
+    color: #667eea;
+    font-weight: 700;
+}
+
+/* Área de ações no canto superior direito */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+/*Botão principal */
 .btn-primary {
   background: black;
   color: white;
@@ -28,6 +168,17 @@ body{
   border: none;
   border-radius: 6px;
   cursor: pointer;
+}
+
+/*Botão sair */
+.btn-logout{
+  background: black;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .search-bar input {
@@ -164,4 +315,19 @@ body{
   right: 15px;
   font-size: 1.5rem;
   cursor: pointer;
+}
+
+/* Responsivo — em celular os botões voltam ao centro */
+@media (max-width: 992px) {
+    .welcome-buttons {
+        justify-content: center;
+        padding-right: 0;
+    }
+    .prints-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .prints-grid img {
+        max-width: 80%;
+    }
 }

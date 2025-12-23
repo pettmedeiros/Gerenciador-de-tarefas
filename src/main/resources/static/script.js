@@ -2,30 +2,40 @@
 const API_BASE = '/api';
 let token = localStorage.getItem('token');
 
-// Verifica se esta logado
-async function verificarlogin() {
-    if(token){
-        document.getElementById('telaBoasVindas').classList.add('hidden');
-        document.getElementById('telaPrincipal').classList.add('hidden');
+// Redirecionamento automático 
+async function verificarRota() {
+    const path = window.location.pathname;
 
-        try{ //// Extrai o email do token JWT e exibe no header
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            document.getElementById('usuarioLogado').innerText = payload.sub;
-        } catch{
-            document.getElementById('usuarioLogado').innerText = "Usuário";
-        }
+    // Se está logado e tenta acessar welcome → manda pro dashboard
+    if (token && path === '/'){
+        window.location.href = '/dashboard.html';
+    }
 
-        carregarTarefas();
+    // Se NÃO está logado e tenta acessar qualquer coisa que não seja welcome → volta pro login
+    if(!token && path !== '/'){
+        window.location.href = '/';
+    }
+}
+
+// === EXIBE NOME DO USUÁRIO NO DASHBOARD ===
+async function exibirUsuarioLogado() {
+    if (!token) return;
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const elemento = document.getElementById('usuarioLogado');
+        if (elemento) elemento.innerText = payload.sub;
+    } catch (e) {
+        console.error("Erro ao ler token:", e);
     }
 }
 
 //Abre modal para efetuar login
 async function abrirLogin(){
     Swal.fire({
-        title: 'login',
+        title: 'Fazer Login',
         html:`
             <input type="email" id="loginEmail" class="swal2-input" placeholder="Email" required>
-            <input type="senha" id="loginSenha" class="swal2-input" placeholder="Senha" required>
+            <input type="password" id="loginSenha" class="swal2-input" placeholder="Senha" required>
         `,
         showCancelButton: true,
         confirmButtonText: 'Entrar',
@@ -46,15 +56,15 @@ async function abrirLogin(){
             try{
                 const res = await fetch(`${API_BASE}/usuarios/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type' : 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({email, senha})
                 });
                 if(res.ok){
                     const data = await res.json();
                     token = data.token;
                     localStorage.setItem('token', token);
-                    verificarlogin();
-                    Swal.fire('Sucesso!', 'Login realizado com sucesso!', 'sucess');
+                    verificarRota();
+                    Swal.fire('Sucesso!', 'Login realizado com sucesso!', 'success');
                 }else{
                     Swal.fire('Erro', 'Email ou senha incorretos', 'error');
                 }
@@ -65,7 +75,6 @@ async function abrirLogin(){
     });
 }
 
-
 //Abre modal para efetuar cadastro 
 async function abrirCadastro() {
     Swal.fire({
@@ -74,7 +83,7 @@ async function abrirCadastro() {
             <input type="text" id="cadNome" class="swal2-input" placeholder="Nome Completo" required>
             <input type="text" id="cadCpf" class="swal2-input" placeholder="CPF (apenas números)" required>
             <input type="email" id="cadEmail" class="swal2-input" placeholder="Email" required>
-            <input type="senha" id="cadSenha" class="swal2-input" placeholder="Senha" required>
+            <input type="password" id="cadSenha" class="swal2-input" placeholder="Senha" required>
         `,
         showCancelButton: true,
         confirmButtonText: 'Entrar',
@@ -102,7 +111,7 @@ async function abrirCadastro() {
                     body: JSON.stringify(dados)
                 })
                 if (res.ok){
-                    Swal.fire('Sucesso!', 'Cadastro realizado com sucesso!', 'sucess');
+                    Swal.fire('Sucesso!', 'Cadastro realizado com sucesso!', 'success');
                 } else{
                     Swal.fire('Erro', 'Não foi possível conectar ao servidor', 'error');
                 }
@@ -115,22 +124,22 @@ async function abrirCadastro() {
 }
 
 // Logout
-function logout() {
+async function logout() {
     localStorage.removeItem('token');
     token = null;
-    document.getElementById('telaPrincipal').classList.add('hidden');
-    document.getElementById('telaBoasVindas').classList.remove('hidden');
+    window.location.href = '/';
 }
 
-// Função genérica pra chamadas com token
+//  FUNÇÃO GENÉRICA COM TOKEN 
 async function apiFetch(url, options = {}) {
-    const headers = {
-        'Content-Type': 'application/json',
-        ...(token && { 'Authorization': `Bearer ${token}` })
-    };
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers.Authorization = `Bearer ${token}`;
+    
     const res = await fetch(url, { ...options, headers });
     if (res.status === 401) {
-        logout();
+        localStorage.removeItem('token');
+        token = null;
+        verificarRota();
         Swal.fire('Sessão expirada', 'Faça login novamente', 'warning');
     }
     return res;
@@ -203,7 +212,7 @@ async function removerTarefa(id) {
 
     if(result.isConfirmed){
         try{
-            const response = await fetch(`/api/tarefas/${id}`, { method: 'DELETE' })
+            const response = await apiFetch(`/api/tarefas/${id}`, { method: 'DELETE' })
             
             if(response.ok){
                 await Swal.fire("Tarefa removida com sucesso!", "", "success");
@@ -247,7 +256,7 @@ function fecharModal(){
 
 // Editar Tarefa
 async function editarTarefa(id) {
-    const response = await fetch(`/api/tarefas/${id}`);
+    const response = await apiFetch(`/api/tarefas/${id}`);
     const tarefa = await response.json();
     abrirModal(tarefa);
 }
@@ -267,9 +276,8 @@ async function concluirTarefa(id) {
 
     if (result.isConfirmed){ // confirma o result 
         try {
-            const response = await fetch(`/api/tarefas/${id}/status`, {
+            const response = await apiFetch(`/api/tarefas/${id}/status`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify("CONCLUIDA")
             });
             
@@ -317,9 +325,8 @@ document.getElementById('formTarefa').addEventListener('submit', async (e) => {
     try{
         if (editandoId) {
             // Atualiza tarefa existente
-            await fetch(`/api/tarefas/${editandoId}`, {
+            await apiFetch(`/api/tarefas/${editandoId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(novaTarefa)
             });
 
@@ -332,9 +339,8 @@ document.getElementById('formTarefa').addEventListener('submit', async (e) => {
 
         } else {
             // Cria nova tarefa
-            await fetch('/api/tarefas', {
+            await apiFetch('/api/tarefas', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(novaTarefa)
             });
 
@@ -354,10 +360,9 @@ document.getElementById('formTarefa').addEventListener('submit', async (e) => {
     }
 });
 
-// Carrega as tarefas ao abrir a página
-document.addEventListener('DOMContentLoaded', carregarTarefas);
-
-// Inicia a aplicação
+// === INICIAR APLICAÇÃO ===
 document.addEventListener('DOMContentLoaded', () => {
-    verificarLogin();
+    verificarRota();
+    exibirUsuarioLogado();
+    carregarTarefas(); // só roda se estiver no dashboard
 });
