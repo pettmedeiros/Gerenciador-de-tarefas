@@ -82,8 +82,17 @@ Basta rodar o backend e abrir o navegador em: http://localhost:8080
 - Marque como concluída
 - Delete com confirmação
 - 
-<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/e1aa2558-e5a1-4df5-984a-18820881bc7c" />
+## 📸 Screenshots
 
+<p align="center">
+  <img src="src/main/resources/static/images/dashboard.png" width="45%" />
+  <img src="src/main/resources/static/images/nova-tarefa.png" width="45%" />
+</p>
+
+<p align="center">
+  <img src="src/main/resources/static/images/concluir.png" width="45%" />
+  <img src="src/main/resources/static/images/excluir.png" width="45%" />
+</p>
  # Autor
    
    Peterson Lisboa Medeiros
